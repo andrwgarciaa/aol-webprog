@@ -9,7 +9,10 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -55,15 +58,17 @@ Route::middleware('auth')->group(function () {
 
     Route::put('password', [PasswordController::class, 'update'])->name('password.update');
 
+    Route::post('change-role', [ProfileController::class, 'changeRole'])
+        ->name('role.change');
+
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/purchases', [ProductController::class, 'purchasesIndex'])->name('purchases.index');
-    Route::get('/add-product', [ProductController::class, 'addProductIndex'])->name('products.create');
-    Route::post('/add-product', [ProductController::class, 'storeProduct'])->name('products.store');
-    Route::patch('/products', [ProductController::class, 'update'])->name('products.update');
-    Route::delete('/products', [ProductController::class, 'destroy'])->name('products.destroy');
-    Route::post('/cart', [ProductController::class, 'addToCart'])->name('cart.add');
+    Route::get('/profile/courses', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/profile/cart', [OrderController::class, 'cart'])->name('orders.cart');
+    Route::post('/purchase', [OrderController::class, 'purchase'])->name('cart.purchase');
+    Route::post('/order/{id}', [OrderController::class, 'store'])->name('orders.store');
+    Route::post('/course/start/{id}', [OrderController::class, 'start'])->name('courses.start');
 });
