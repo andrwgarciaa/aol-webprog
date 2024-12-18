@@ -91,10 +91,8 @@ class OrderController extends Controller
             ->first();
 
         if ($order) {
-            if ($order) {
-                $order->order_status_id = 4; // ongoing
-                $order->save();
-            }
+            $order->order_status_id = 4; // ongoing
+            $order->save();
         }
 
         return redirect()->route('orders.index')->with('error', 'Course not purchased.');
