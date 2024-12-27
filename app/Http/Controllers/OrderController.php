@@ -11,15 +11,32 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $orders = DB::table('orders')
-            ->leftJoin('users', 'orders.student_id', '=', 'users.id')
-            ->leftJoin('order_statuses', 'orders.order_status_id', '=', 'order_statuses.id')
-            ->leftJoin('courses', 'course_id', '=', 'courses.id')
-            ->where('orders.student_id', '=', Auth::user()->id)
-            ->where('orders.order_status_id', '!=', 1) // not cart
-            ->select('orders.updated_at', 'order_statuses.name as status', 'courses.*')
-            ->orderBy('orders.updated_at', 'desc')
-            ->get();
+        // lecturer
+
+        if (Auth::user()->user_role_id == 2) {
+            $orders = DB::table('courses')
+                ->where('courses.lecturer_id', '=', Auth::user()->id)
+                ->orderBy('courses.updated_at', 'desc')
+                ->get();
+            $orders = $orders->map(function ($order) {
+                $order->purchases_count = DB::table('orders')
+                    ->where('course_id', $order->id)
+                    ->whereIn('order_status_id', [2, 4, 5]) // purchased, ongoing, or completed
+                    ->count();
+                return $order;
+            });
+        } else // student
+        {
+            $orders = DB::table('orders')
+                ->leftJoin('users', 'orders.student_id', '=', 'users.id')
+                ->leftJoin('order_statuses', 'orders.order_status_id', '=', 'order_statuses.id')
+                ->leftJoin('courses', 'course_id', '=', 'courses.id')
+                ->where('orders.student_id', '=', Auth::user()->id)
+                ->where('orders.order_status_id', '!=', 1) // not cart
+                ->select('orders.updated_at', 'order_statuses.name as status', 'courses.*')
+                ->orderBy('orders.updated_at', 'desc')
+                ->get();
+        }
 
         return view('orders.index', compact('orders'));
     }

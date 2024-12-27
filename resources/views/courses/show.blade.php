@@ -8,12 +8,12 @@
                         <div class="px-6 py-4">
                             <p class="font-bold text-2xl mb-2">{{ $course->title }}</p>
                             <p class="font-bold text-xl mb-2">taught by <span class="italic">{{ $course->lecturer_name }}</span></p>
-                            <p class="text-gray-700 dark:text-gray-300 text-base">
+                            <p class="mb-2 text-gray-700 dark:text-gray-300 text-base">
                                 {{ $course->description }}
                             </p>
                             @auth
                             @if (Auth::user()->user_role_id == 2 && Auth::user()->id == $course->lecturer_id)
-                            <a href="{{ route('courses.update', $course->id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            <a href="{{ route('courses.edit', $course->id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                 Edit course
                             </a>
                             @elseif (Auth::user()->user_role_id == 3)
