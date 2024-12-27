@@ -57,4 +57,19 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    /**
+     * Change the user's role.
+     */
+    public function changeRole(Request $request): RedirectResponse
+    {
+        if ($request->user()->user_role_id == 2) {
+            $request->user()->user_role_id = 3; // change to student
+        } elseif ($request->user()->user_role_id == 3) {
+            $request->user()->user_role_id = 2; // change to lecturer
+        }
+        $request->user()->save();
+
+        return Redirect::back();
+    }
 }

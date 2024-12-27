@@ -39,24 +39,6 @@
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
-        <!-- Register As -->
-        <div class="mt-4">
-            <x-input-label for="role" :value="__('Register As')" />
-
-            <div class="flex items-center gap-4">
-                <div>
-                    <input id="seller" type="radio" name="role" value="2" class="mr-2" required>
-                    <label for="seller" class="dark:text-white text-black">{{ __('Seller') }}</label>
-                </div>
-                <div>
-                    <input id="buyer" type="radio" name="role" value="3" class="mr-2" required>
-                    <label for="buyer" class="dark:text-white text-black">{{ __('Buyer') }}</label>
-                </div>
-            </div>
-
-            <x-input-error :messages="$errors->get('role')" class="mt-2" />
-        </div>
-
         <div class="flex items-center justify-end mt-4">
             <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
                 {{ __('Already registered?') }}
