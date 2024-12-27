@@ -35,7 +35,11 @@ class CourseController extends Controller
                     ->first();
             }
         } else {
-            $course = Course::find($request->id);
+            $course = DB::table('courses')
+                ->leftJoin('users', 'courses.lecturer_id', '=', 'users.id')
+                ->where('courses.id', $request->id)
+                ->select('courses.*', 'users.name as lecturer_name')
+                ->first();
         }
 
         return view('courses.show', compact('course'));
