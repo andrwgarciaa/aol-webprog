@@ -71,4 +71,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/purchase', [OrderController::class, 'purchase'])->name('cart.purchase');
     Route::post('/order/{id}', [OrderController::class, 'store'])->name('orders.store');
     Route::post('/course/start/{id}', [OrderController::class, 'start'])->name('courses.start');
+    Route::get('/course/update/{id}', [CourseController::class, 'editCourse'])->name('courses.edit');
+    Route::put('/course/update/{id}', [CourseController::class, 'updateCourse'])->name('courses.update');
 });

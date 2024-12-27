@@ -12,7 +12,7 @@
                     @foreach ($courses as $course)
                     <a href="{{ route('courses.show', $course->id) }}">
                         <div class="relative w-full h-full rounded overflow-hidden shadow-lg my-4 border-gray-100 dark:border-gray-700 border">
-                            <img class="object-cover" src="{{ $course->image }}" alt="{{ $course->title }}">
+                            <img class="object-cover w-full h-48" src="{{ $course->image }}" alt="{{ $course->title }}">
                             <p class="font-bold text-lg p-4 mb-2">
                                 <span class="block sm:hidden">{{ Str::limit($course->title, 30, '...') }}</span>
                                 <span class="hidden sm:block md:hidden">{{ Str::limit($course->title, 20, '...') }}</span>

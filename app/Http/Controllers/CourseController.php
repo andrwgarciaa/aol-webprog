@@ -44,4 +44,29 @@ class CourseController extends Controller
 
         return view('courses.show', compact('course'));
     }
+
+    public function editCourse($id)
+    {
+        $course = Course::findOrFail($id);
+
+        return view('courses.edit-course', compact('course'));
+    }
+
+    public function updateCourse(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'price' => 'required|numeric|min:0',
+        ]);
+
+        $course = Course::findOrFail($id);
+        $course->title = $request->input('title');
+        $course->description = $request->input('description');
+        $course->price = $request->input('price');
+        $course->save();
+
+        return redirect()->route('courses.show', ['id' => $id])
+            ->with('success', 'Course updated successfully');
+    }
 }
